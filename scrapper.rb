@@ -47,6 +47,10 @@ detail.each do |detail|
 
 	qualifications=profile.xpath('//div[@class="section profile-qualifications"]')
 
+	## Handle Number of year
+	year=qualifications.css('.section-content li[1]').text.strip
+	qualifications_years_in_practice=year.split("Years in Practice: ").last	
+
 	## Push to Array
 	results.push(
 		id: id,
@@ -58,7 +62,7 @@ detail.each do |detail|
 		zip: zip,
 		verified_by_psychology_today: verified_by_psychology_today,		
 		url: profile_url,
-		# qualifications_years_in_practice: qualifications_years_in_practice,
+		qualifications_years_in_practice: qualifications_years_in_practice
 		# qualifications_school_name: qualifications_school_name,
 		# qualifications_year_graduated: qualifications_year_graduated,
 		# qualifications_license_no: qualifications_license_no,
