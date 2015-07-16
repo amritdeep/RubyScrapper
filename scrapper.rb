@@ -17,3 +17,6 @@ state_href="https://therapists.psychologytoday.com/rms/state/#{city_zip}/#{city_
 puts "#{state_href}"
 
 url=Nokogiri::HTML(open(state_href))
+
+data=url.xpath('//div[@id="results-right"]')
+detail=data.xpath('//div[@class="row-fluid result-row"]')
