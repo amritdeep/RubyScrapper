@@ -67,6 +67,11 @@ detail.each do |detail|
 	# state=qualifications.css('.section-content li[5]').text.strip
 	# qualifications_State=state.split("")	
 
+	## Handle Finances
+	finances=profile.xpath('//div[@class="section profile-finances"]')
+	scale=finances.css('.section-content li[1]').text.strip
+	sliding_scale=scale.split("Sliding Scale: ").last	
+
 	## Push to Array
 	results.push(
 		id: id,
@@ -83,6 +88,7 @@ detail.each do |detail|
 		qualifications_year_graduated: qualifications_year_graduated,
 		qualifications_license_no: qualifications_license_no
 		# qualifications_State: qualifications_State,
+		sliding_scale: sliding_scale,
 		)
 
 end
