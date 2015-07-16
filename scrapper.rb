@@ -1,4 +1,6 @@
 require "nokogiri"
+require "open-uri"
+
 
 # puts "Enter city or zip ="
 # city_zip=gets.chomp
@@ -13,3 +15,5 @@ puts "#{city_zip}"
 therapists_url="https://therapists.psychologytoday.com"
 state_href="https://therapists.psychologytoday.com/rms/state/#{city_zip}/#{city_zip}.html"
 puts "#{state_href}"
+
+url=Nokogiri::HTML(open(state_href))
