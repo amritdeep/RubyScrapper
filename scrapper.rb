@@ -26,10 +26,22 @@ results = []
 detail.each do |detail|
 	id=detail['data-profid']
 	pictur_id_url= detail.css('.result-photo img').attr('src').value
+	name=detail.css('.result-name a').text.strip
+	# job=detail.css('.result-suffix').text.strip
+	title=detail.css('.result-suffix span').text.strip
+	description=detail.css('.result-desc').text.strip
+	telephone=detail.css('.result-phone').text.strip
+	zip=detail.css('.result-address a').text.strip
+
 
 	results.push(
 		id: id,
-		pictur_id_url: pictur_id_url
+		pictur_id_url: pictur_id_url,
+		name: name,
+		title: title,
+		description: description,
+		telephone: telephone,
+		zip: zip
 		)
 end
 
