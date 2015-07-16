@@ -72,6 +72,15 @@ detail.each do |detail|
 	scale=finances.css('.section-content li[1]').text.strip
 	sliding_scale=scale.split("Sliding Scale: ").last	
 
+	# ## Handle Additional Credentials
+	credentials=profile.xpath('//div[@class="section profile-additionalcredentials"]')
+
+	membership_val=credentials.css('.section-content li[1]').text.strip
+	membership=membership_val.split("Membership: ").last
+
+	member_dt=credentials.css('.section-content li[2]').text.strip
+	member_since=member_dt.split("Member Since: ").last	
+
 	## Push to Array
 	results.push(
 		id: id,
@@ -86,9 +95,12 @@ detail.each do |detail|
 		qualifications_years_in_practice: qualifications_years_in_practice,
 		qualifications_school_name: qualifications_school_name,
 		qualifications_year_graduated: qualifications_year_graduated,
-		qualifications_license_no: qualifications_license_no
+		qualifications_license_no: qualifications_license_no,
 		# qualifications_State: qualifications_State,
 		sliding_scale: sliding_scale,
+		additional_membership: membership,
+		additional_member_since: member_since
+
 		)
 
 end
