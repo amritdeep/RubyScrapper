@@ -31,9 +31,13 @@ detail.each do |detail|
 	title=detail.css('.result-suffix span').text.strip
 	description=detail.css('.result-desc').text.strip
 	telephone=detail.css('.result-phone').text.strip
-	zip=detail.css('.result-address a').text.strip
+	zip=detail.css('.result-address a').text.strip	
 
+	## Handle profile url
+	profile_url_val=detail['data-profile-url']
+	profile_url="#{therapists_url}#{profile_url_val}"
 
+	## Push to Array
 	results.push(
 		id: id,
 		pictur_id_url: pictur_id_url,
@@ -41,8 +45,12 @@ detail.each do |detail|
 		title: title,
 		description: description,
 		telephone: telephone,
-		zip: zip
+		zip: zip,
+		url : profile_url
 		)
+
+
+
 end
 
 puts JSON.pretty_generate(results)
