@@ -1,6 +1,6 @@
 require "nokogiri"
 require "open-uri"
-
+require "json"
 
 # puts "Enter city or zip ="
 # city_zip=gets.chomp
@@ -32,3 +32,5 @@ detail.each do |detail|
 		pictur_id_url: pictur_id_url
 		)
 end
+
+puts JSON.pretty_generate(results)
