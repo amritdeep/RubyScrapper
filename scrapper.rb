@@ -72,7 +72,7 @@ detail.each do |detail|
 	scale=finances.css('.section-content li[1]').text.strip
 	sliding_scale=scale.split("Sliding Scale: ").last	
 
-	# ## Handle Additional Credentials
+	## Handle Additional Credentials
 	credentials=profile.xpath('//div[@class="section profile-additionalcredentials"]')
 
 	membership_val=credentials.css('.section-content li[1]').text.strip
@@ -85,6 +85,8 @@ detail.each do |detail|
 	results.push(
 		id: id,
 		pictur_id_url: pictur_id_url,
+		# image_name:,
+		# website_url:,		
 		name: name,
 		title: title,
 		description: description,
@@ -106,3 +108,7 @@ detail.each do |detail|
 end
 
 puts JSON.pretty_generate(results)
+
+output=JSON.pretty_generate(results)
+
+File.open("output.json", "w") { |file| file.write(output)  }
