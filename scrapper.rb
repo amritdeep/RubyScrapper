@@ -51,6 +51,22 @@ detail.each do |detail|
 	year=qualifications.css('.section-content li[1]').text.strip
 	qualifications_years_in_practice=year.split("Years in Practice: ").last	
 
+	## Handle School name
+	schoool=qualifications.css('.section-content li[2]').text.strip
+	qualifications_school_name=schoool.split("School: ").last
+
+	## Handle Year Graduated
+	graduated=qualifications.css('.section-content li[3]').text.strip
+	qualifications_year_graduated=graduated.split("Year Graduated: ").last
+
+	## Handle License Number
+	license_state=qualifications.css('.section-content li[4]').text.strip
+	qualifications_license_no=license_state.split("License No. and State: ").last.to_i
+
+	## Handle State
+	# state=qualifications.css('.section-content li[5]').text.strip
+	# qualifications_State=state.split("")	
+
 	## Push to Array
 	results.push(
 		id: id,
@@ -62,14 +78,12 @@ detail.each do |detail|
 		zip: zip,
 		verified_by_psychology_today: verified_by_psychology_today,		
 		url: profile_url,
-		qualifications_years_in_practice: qualifications_years_in_practice
-		# qualifications_school_name: qualifications_school_name,
-		# qualifications_year_graduated: qualifications_year_graduated,
-		# qualifications_license_no: qualifications_license_no,
+		qualifications_years_in_practice: qualifications_years_in_practice,
+		qualifications_school_name: qualifications_school_name,
+		qualifications_year_graduated: qualifications_year_graduated,
+		qualifications_license_no: qualifications_license_no
 		# qualifications_State: qualifications_State,
 		)
-
-
 
 end
 
