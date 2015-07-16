@@ -88,7 +88,7 @@ detail.each do |detail|
 		qualifications_year_graduated: qualifications_year_graduated,
 		qualifications_license_no: qualifications_license_no
 		# qualifications_State: qualifications_State,
-		sliding_scale: sliding_scale,
+		
 		)
 
 end
