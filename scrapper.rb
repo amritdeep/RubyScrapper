@@ -33,6 +33,11 @@ detail.each do |detail|
 	telephone=detail.css('.result-phone').text.strip
 	zip=detail.css('.result-address a').text.strip	
 
+	## Handle teh verified by Psychology Today
+	verified_value=detail.css('.result-title a').attr('title').value
+	verifed=verified_value.split("#{name} is ").last
+	verified_by_psychology_today="Yes" if verifed == "verified by Psychology Today"	
+
 	## Handle profile url
 	profile_url_val=detail['data-profile-url']
 	profile_url="#{therapists_url}#{profile_url_val}"
@@ -46,6 +51,7 @@ detail.each do |detail|
 		description: description,
 		telephone: telephone,
 		zip: zip,
+		verified_by_psychology_today: verified_by_psychology_today,		
 		url : profile_url
 		)
 
