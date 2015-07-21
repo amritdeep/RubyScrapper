@@ -109,15 +109,15 @@ detail.each do |detail|
 		additional_member_since: member_since
 		)
 
+end
 
-	CSV.open("output.csv", "a+") do |csv|
-		csv << results
-	end
 
-	CSV.foreach("output.csv") do |row|
-		puts row 
-	end
+CSV.open("output.csv", "a+") do |csv|
+	csv << results
+end
 
+CSV.foreach("output.csv") do |row|
+	puts row 
 end
 
 output=JSON.pretty_generate(results)
