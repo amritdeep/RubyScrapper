@@ -1,6 +1,7 @@
 require "nokogiri"
 require "open-uri"
 require "json"
+require "pry"
 require "csv"
 
 # puts "Enter city or zip ="
@@ -49,68 +50,18 @@ detail.each do |detail|
 	## Handle qualifications
 	profile=Nokogiri::HTML(open(profile_url))
 
-	qualifications=profile.xpath('//div[@class="section profile-qualifications"]')
+	profile_name=profile.xpath('//div[@class="section profile-name"]/h1').text
+	profille_title=profile.xpath('//div[@class="profile-title"]/h2').text.split("\n").join
+	profile_about=profile.xpath('//div[@class="section profile-personalstatement"]').text.split("\n").join
 
-	## Handle Number of year
-	year=qualifications.css('.section-content li[1]').text.strip
-	qualifications_years_in_practice=year.split("Years in Practice: ").last
-
-	## Handle School name
-	schoool=qualifications.css('.section-content li[2]').text.strip
-	qualifications_school_name=schoool.split("School: ").last
-
-	## Handle Year Graduated
-	graduated=qualifications.css('.section-content li[3]').text.strip
-	qualifications_year_graduated=graduated.split("Year Graduated: ").last
-
-	## Handle License Number
-	license_state=qualifications.css('.section-content li[4]').text.strip
-	qualifications_license_no=license_state.split("License No. and State: ").last.to_i
-
-	## Handle State
-	# state=qualifications.css('.section-content li[5]').text.strip
-	# qualifications_State=state.split("")
-
-	## Handle Finances
-	finances=profile.xpath('//div[@class="section profile-finances"]')
-	scale=finances.css('.section-content li[1]').text.strip
-	sliding_scale=scale.split("Sliding Scale: ").last
-
-
-	# ## Handle Additional Credentials
-	credentials=profile.xpath('//div[@class="section profile-additionalcredentials"]')
-
-	membership_val=credentials.css('.section-content li[1]').text.strip
-	membership=membership_val.split("Membership: ").last
-
-	member_dt=credentials.css('.section-content li[2]').text.strip
-	member_since=member_dt.split("Member Since: ").last
-
-
-
-	## Added to Array
-	results.push(
-		id: id,
-		url: profile_url,
-		title: title,
-		name: name,
-		pictur_id_url: pictur_id_url,
-		# image_name:,
-		# website_url:,
-		verified_by_psychology_today: verified_by_psychology_today,
-		description: description,
-		qualifications_years_in_practice: qualifications_years_in_practice,
-		qualifications_school_name: qualifications_school_name,
-		qualifications_year_graduated: qualifications_year_graduated,
-		qualifications_license_no: qualifications_license_no,
-		# qualifications_State: qualifications_State,
-		sliding_scale: sliding_scale,
-		additional_membership: membership,
-		additional_member_since: member_since
-		)
+	results << [profile_url, profille_title, profile_name, profile_about]
 
 end
 
+puts results
+
+File.delete("output.csv")
+File.delete("output.json")
 
 CSV.open("output.csv", "a+") do |csv|
 	csv << results
