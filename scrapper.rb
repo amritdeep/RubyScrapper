@@ -54,8 +54,7 @@ detail.each do |detail|
 	profille_title=profile.xpath('//div[@class="profile-title"]/h2').text.split("\n").join
 	profile_about=profile.xpath('//div[@class="section profile-personalstatement"]').text.split("\n").join
 
-	results << [profile_url, profille_title, profile_name, profile_about]
-
+	results.push(profile_url: profile_url, profille_title: profille_title,  profile_name: profile_name,  profile_about: profile_about)
 end
 
 puts results
@@ -64,12 +63,12 @@ File.delete("output.csv")
 File.delete("output.json")
 
 CSV.open("output.csv", "a+") do |csv|
-	csv << results
+	results.each { |results| csv << [results[:profile_url], results[:profille_title], results[:profile_name], results[:profile_about]] }
 end
 
-CSV.foreach("output.csv") do |row|
-	puts row 
-end
+# CSV.foreach("output.csv") do |row|
+# 	puts row 
+# end
 
 output=JSON.pretty_generate(results)
 
