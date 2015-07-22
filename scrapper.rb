@@ -9,7 +9,6 @@ require "csv"
 city_zip="new york"
 
 city_zip=city_zip.sub(/ /, '+') if city_zip.match(/\s/)
-
 puts "#{city_zip}"
 
 
@@ -25,37 +24,53 @@ detail=data.xpath('//div[@class="row-fluid result-row"]')
 
 results = []
 
-detail.each do |detail|
-	id=detail['data-profid']
-	pictur_id_url= detail.css('.result-photo img').attr('src').value
-	# pictur_id_url=detail.css('.result-photo a')
-	
-	name=detail.css('.result-name a').text.strip
+## Handle pagination Data
+page=data.xpath('//div[@class="endresults-right"]/a').text.split("Next")
 
-	## Handle teh verified by Psychology Today
-	verified_value=detail.css('.result-title a').attr('title').value
-	verifed=verified_value.split("#{name} is ").last
-	verified_by_psychology_today="Yes" if verifed == "verified by Psychology Today"
-
-	# job=detail.css('.result-suffix').text.strip
-	title=detail.css('.result-suffix span').text.strip
-	description=detail.css('.result-desc').text.strip
-	telephone=detail.css('.result-phone').text.strip
-	zip=detail.css('.result-address a').text.strip
-
-	## Handle profile url
-	profile_url_val=detail['data-profile-url']
-	profile_url="#{therapists_url}#{profile_url_val}"
-
-	## Handle qualifications
-	profile=Nokogiri::HTML(open(profile_url))
-
-	profile_name=profile.xpath('//div[@class="section profile-name"]/h1').text
-	profille_title=profile.xpath('//div[@class="profile-title"]/h2').text.split("\n").join
-	profile_about=profile.xpath('//div[@class="section profile-personalstatement"]').text.split("\n").join
-
-	results.push(profile_url: profile_url, profille_title: profille_title,  profile_name: profile_name,  profile_about: profile_about)
+## Page data in proper format
+page_loop = page.first.each_char.map {|n| n.to_i }
+if page_loop.size > 8
+  page_num = page_loop[0..8]
+  page_num += page_loop[9..page_loop.size].each_slice(2).map(&:join).map(&:to_i)
 end
+
+page_num.each do |page_num|
+
+	detail.each do |detail|
+		id=detail['data-profid']
+		pictur_id_url= detail.css('.result-photo img').attr('src').value
+		# pictur_id_url=detail.css('.result-photo a')
+		
+		name=detail.css('.result-name a').text.strip
+
+		## Handle teh verified by Psychology Today
+		verified_value=detail.css('.result-title a').attr('title').value
+		verifed=verified_value.split("#{name} is ").last
+		verified_by_psychology_today="Yes" if verifed == "verified by Psychology Today"
+
+		# job=detail.css('.result-suffix').text.strip
+		title=detail.css('.result-suffix span').text.strip
+		description=detail.css('.result-desc').text.strip
+		telephone=detail.css('.result-phone').text.strip
+		zip=detail.css('.result-address a').text.strip
+
+		## Handle profile url
+		profile_url_val=detail['data-profile-url']
+		profile_url="#{therapists_url}#{profile_url_val}"
+
+		## Handle qualifications
+		profile=Nokogiri::HTML(open(profile_url))
+
+		profile_name=profile.xpath('//div[@class="section profile-name"]/h1').text
+		profille_title=profile.xpath('//div[@class="profile-title"]/h2').text.split("\n").join
+		profile_about=profile.xpath('//div[@class="section profile-personalstatement"]').text.split("\n").join
+
+		results.push(profile_url: profile_url, profille_title: profille_title,  profile_name: profile_name,  profile_about: profile_about)
+	end
+
+end
+
+binding.pry
 
 puts results
 
